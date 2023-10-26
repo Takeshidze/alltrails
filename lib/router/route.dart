@@ -1,5 +1,6 @@
-import '../modules/screens/preview_screen/preview_screen.dart';
+import 'package:alltrails/modules/screens/main_screen/main_screen.dart';
+
 
 final route = {
-  '/': (context) => const PreviewScreen(),
+  '/': (context) => const MainScreen(),
 };
