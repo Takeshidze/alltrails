@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
+  carousel_slider: ^4.2.1
   flutter:
     sdk: flutter
 
@@ -20,4 +21,3 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/images/logo_tour_operators/
