@@ -12,6 +12,7 @@ class HotTouresSection extends StatelessWidget {
     double sizeWidth = MediaQuery.of(context).size.width;
 
     return Container(
+      height: sizeHeight * 0.3,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -52,29 +53,40 @@ class HotTouresSection extends StatelessWidget {
               Spacer()
             ],
           ),
-          CarouselSlider(items: [
-            TourCard(
-              prise: 77342,
-              originalPrise: 93342,
-              hotelName: "AgonHotel",
-              arrivalPoint: "Турция, Стамбул",
-              hotelStars: 3,
+          
+            Stack(
+              fit: StackFit.loose,
+              children: [
+                ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    TourCard(
+                      prise: 77342,
+                      originalPrise: 93342,
+                      hotelName: "AgonHotel",
+                      arrivalPoint: "Турция, Стамбул",
+                      hotelStars: 3,
+                    ),
+                                        TourCard(
+                      prise: 77342,
+                      originalPrise: 93342,
+                      hotelName: "AgonHotel",
+                      arrivalPoint: "Турция, Стамбул",
+                      hotelStars: 3,
+                    ),
+                                        TourCard(
+                      prise: 77342,
+                      originalPrise: 93342,
+                      hotelName: "AgonHotel",
+                      arrivalPoint: "Турция, Стамбул",
+                      hotelStars: 3,
+                    ),
+                  ],
+            )
+              ],
             ),
-            TourCard(
-              prise: 77342,
-              originalPrise: 93342,
-              hotelName: "AgonHotel",
-              arrivalPoint: "Турция, Стамбул",
-              hotelStars: 3,
-            ),
-            TourCard(
-              prise: 77342,
-              originalPrise: 93342,
-              hotelName: "AgonHotel",
-              arrivalPoint: "Турция, Стамбул",
-              hotelStars: 3,
-            ),
-          ], options: CarouselOptions()),
+            
           SizedBox(
             height: sizeHeight * 0.01,
           ),
