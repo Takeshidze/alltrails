@@ -3,6 +3,8 @@ import 'package:alltrails/modules/widgets/expended_button.dart';
 import 'package:alltrails/modules/widgets/text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:supabase/supabase.dart';
 
 extension EmailValidator on String {
   bool isValidEmail() {
@@ -32,6 +34,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _isAccepted = false;
 
+  final supabase = SupabaseClient('https://hgflcwucjbsqrkjuqvvr.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnZmxjd3VjamJzcXJranVxdnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA3OTA4NzgsImV4cCI6MjAxNjM2Njg3OH0.V1pVKF2Ng2ioVAf_AXLAQWn1z9fNlXy5z7Xm-S0ucRA');
+
   void _toggleAccept(bool? newValue) {
     setState(() {
       if (newValue != null) {
@@ -55,6 +60,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _password = '';
     _confirmPassword = '';
     super.initState();
+  }
+
+  Future<void> insertUser(String email, String password) async {
+    final response = await supabase
+        .from('users')
+        .insert({'email': email, 'password': password}).execute();
+
+    if (response.status == 200) {
+      print('Пользователь успешно добавлен');
+    } else {
+      print('Ошибка при добавлении пользователя: ${response.status}');
+    }
+  }
+
+  void createNewUser() async {
+    final checkResponse = await supabase
+        .from('Users')
+        .select()
+        .eq('email', _usernameController.text)
+        // ignore: deprecated_member_use
+        .execute();
+
+    if (checkResponse.status != 200) {
+      Fluttertoast.showToast(
+        msg: "Ошибка при выполнении запроса",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 3,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return;
+    } else if (checkResponse.data.isNotEmpty) {
+      Fluttertoast.showToast(
+        msg: "Почта уже используется",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 3,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
   }
 
   @override

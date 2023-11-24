@@ -26,8 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Center(
             child: SizedBox(
               height: sizeHeight * 0.1,
-              child: Image.asset(
-                  'assets/images/Logo_alltrails.png'), // Путь к вашему логотипу
+              child: Image.asset('assets/images/Logo_alltrails.png'),
             ),
           ),
           SizedBox(height: sizeHeight * 0.1),

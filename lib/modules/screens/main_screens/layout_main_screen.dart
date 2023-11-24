@@ -1,3 +1,4 @@
+import 'package:alltrails/modules/screens/chat_screens/chat_menu.dart';
 import 'package:alltrails/modules/screens/hotel_screens/hotel_room_screen.dart';
 import 'package:alltrails/modules/screens/hotel_screens/hotel_screen.dart';
 import 'package:alltrails/modules/screens/hotel_screens/last_screen.dart';
@@ -76,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
                   'Last Screen')) {
                 return LastScreen();
               } else if ((Provider.of<SharedState>(context).data == 'Chat')) {
-                return LastScreen();
+                return ChatMenu();
               }
               return Placeholder();
             },
