@@ -1,3 +1,4 @@
+import 'package:alltrails/modules/functions/functions.dart';
 import 'package:alltrails/modules/screens/main_screens/layout_main_screen.dart';
 import 'package:alltrails/modules/widgets/hotel_stars.dart';
 import 'package:alltrails/modules/widgets/text.dart';
@@ -5,34 +6,35 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TourCard extends StatelessWidget {
+  final void Function()? onTap;
   final int prise;
-  final int originalPrise;
-  final int tourOperator;
-  final String arrivalPoint;
+  final String arrivalCountry;
+  final String arrivalCity;
+  final String tourOperator;
   final String hotelName;
   final int hotelStars;
-  final int departureDate;
-  final int returnDate;
+  final String departureDate;
+  final String returnDate;
 
-  const TourCard(
-      {required this.prise,
-      required this.originalPrise,
-      required this.arrivalPoint,
-      required this.hotelName,
-      required this.hotelStars,
-      this.departureDate = 0,
-      this.returnDate = 0,
-      this.tourOperator = 0,
-      super.key});
+  const TourCard({
+    required this.prise,
+    required this.hotelName,
+    required this.hotelStars,
+    this.arrivalCountry = "Турция",
+    this.arrivalCity = "Анталья",
+    this.departureDate = "10-10-2023",
+    this.returnDate = "17-10-2023",
+    this.tourOperator = "",
+    super.key,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     double sizeHeight = MediaQuery.of(context).size.height;
     double sizeWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
-      onTap: () {
-        Provider.of<SharedState>(context, listen: false).updateData("Card");
-      },
+      onTap: onTap,
       child: Container(
         width: sizeWidth * 0.8,
         height: sizeHeight * 0.17,
@@ -57,17 +59,9 @@ class TourCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontSize: 24),
               ),
-              Text(
-                originalPrise.toString() + " ₽",
-                style: TextStyle(
-                    decoration: TextDecoration.lineThrough,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16),
-              ),
               Container(
-                child: Image.asset(
-                  "assets/images/logo_tour_operators/CoralTravel.png",
+                child: Image.network(
+                  tourOperator,
                   fit: BoxFit.contain,
                 ),
               )
@@ -78,7 +72,7 @@ class TourCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                arrivalPoint,
+                arrivalCountry + ", " + arrivalCity,
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -103,7 +97,9 @@ class TourCard extends StatelessWidget {
                 color: Colors.white,
               ),
               MyTextBox(
-                  text: "22 окт. - 5 нояб.",
+                  text: convertDate(departureDate) +
+                      " - " +
+                      convertDate(returnDate),
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.bold),

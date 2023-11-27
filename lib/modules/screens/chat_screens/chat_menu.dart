@@ -25,7 +25,7 @@ final List<Chat> chats = [
 ];
 
 class ChatMenu extends StatelessWidget {
-  const ChatMenu({super.key});
+  const ChatMenu({super.key, required GlobalKey<NavigatorState> navigatorKey});
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +37,7 @@ class ChatMenu extends StatelessWidget {
             itemCount: chats.length,
             itemBuilder: ((context, index) {
               return GestureDetector(
-                onTap: () {
-                  
-                },
+                onTap: () {},
                 child: ListTile(
                   leading: CircleAvatar(
                     backgroundImage: NetworkImage(chats[index].avatar),

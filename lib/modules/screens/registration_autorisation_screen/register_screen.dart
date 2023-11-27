@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:supabase/supabase.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 extension EmailValidator on String {
   bool isValidEmail() {
@@ -34,9 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _isAccepted = false;
 
-  final supabase = SupabaseClient('https://hgflcwucjbsqrkjuqvvr.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnZmxjd3VjamJzcXJranVxdnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA3OTA4NzgsImV4cCI6MjAxNjM2Njg3OH0.V1pVKF2Ng2ioVAf_AXLAQWn1z9fNlXy5z7Xm-S0ucRA');
-
+  final supabase = Supabase.instance.client;
   void _toggleAccept(bool? newValue) {
     setState(() {
       if (newValue != null) {
@@ -285,12 +284,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     ExpendedButton(
                       text: "Зарегистрироваться",
-                      onPressed: () {
+                      onPressed: () async {
                         _formKey.currentState!.save();
                         if (_formKey.currentState!.validate() &&
                             is_submit_contract()) {
                           if (_password == _confirmPassword) {
-                            Navigator.of(context).pushNamed("/");
+                            final email = _usernameController.text;
+                            final password = _passwordController.text;
+                            print(email + password);
+
+                            Navigator.of(context).pushNamed("/login/");
                           } else {
                             final snackBar = SnackBar(
                               content: const Text("Пароли не совпадают"),
@@ -330,5 +333,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
         );
       },
     );
+  }
+
+  Future<bool> checkIfUserExistsAndRegister(
+      String email, String password) async {
+    // Зарегистрировать нового пользователя
+    final signUpResponse = await supabase.from("Users").insert([
+      {'email': email, 'password': password}
+    ]).execute();
+    print(signUpResponse);
+    if (signUpResponse.status == 200) {
+      // Регистрация прошла успешно
+      print('Пользователь зарегистрирован: ${signUpResponse.data}');
+      return true;
+    } else {
+      // Обработка ошибок при регистрации
+      print('Ошибка при регистрации: ${signUpResponse.status}');
+      return false;
+    }
   }
 }

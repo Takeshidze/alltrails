@@ -7,10 +7,10 @@ import 'package:alltrails/modules/screens/registration_autorisation_screen/login
 import 'package:alltrails/modules/screens/registration_autorisation_screen/register_screen.dart';
 
 final route = {
-  '/': (context) => LoginScreen(),
-  '/cards/': (context) => HotelScreen(),
-  '/register/': (context) => RegisterScreen(),
+  '/': (context) => MainScreen(),
+  // '/cards/': (context) => HotelScreen(),
+  '/login/': (context) => RegisterScreen(),
   '/home/': (context) => MainScreen(),
-  '/settings/': (context) => MoreScreen(),
-  '/settings/profile': (context) => const ProfileScreen(),
+  // '/settings/': (context) => MoreScreen(),
+  '/settings/profile/': (context) => ProfileScreen(),
 };

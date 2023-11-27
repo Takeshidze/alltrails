@@ -46,6 +46,7 @@ class _MyTextfieldState extends State<MyTextfield> {
   @override
   void initState() {
     super.initState();
+
     _controller.addListener(() {
       if (_focusNode.hasFocus) {
         setState(() {

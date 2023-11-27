@@ -5,10 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MoreScreen extends StatelessWidget {
-  MoreScreen({super.key});
+  final GlobalKey<NavigatorState> navigatorKey;
+  MoreScreen({super.key, required GlobalKey<NavigatorState> this.navigatorKey});
 
   final List<Map<String, dynamic>> settings = [
-    {'icon': Icons.person, 'text': 'Профиль', 'direction': "Profile"},
+    {
+      'icon': Icons.person,
+      'text': 'Профиль',
+      'direction': "/settings/profile/"
+    },
     {
       'icon': Icons.favorite,
       'text': 'Понравившиеся',
@@ -49,8 +54,11 @@ class MoreScreen extends StatelessWidget {
             trailing: Icon(Icons.arrow_forward,
                 color: Color.fromRGBO(0, 147, 208, 1)),
             onTap: () {
-              Provider.of<SharedState>(context, listen: false)
-                  .updateData(settings[index]["direction"]);
+              navigatorKey.currentState!.push(
+                MaterialPageRoute(
+                  builder: (context) => ProfileScreen(),
+                ),
+              );
             },
           );
         },
